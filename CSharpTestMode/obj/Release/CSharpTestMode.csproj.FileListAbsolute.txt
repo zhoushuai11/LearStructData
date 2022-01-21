@@ -1,0 +1,6 @@
+E:\LearningDoc\TestCSharp\CSharpTestMode\CSharpTestMode\bin\Release\CSharpTestMode.exe
+E:\LearningDoc\TestCSharp\CSharpTestMode\CSharpTestMode\bin\Release\CSharpTestMode.pdb
+E:\LearningDoc\TestCSharp\CSharpTestMode\CSharpTestMode\obj\Release\CSharpTestMode.csprojAssemblyReference.cache
+E:\LearningDoc\TestCSharp\CSharpTestMode\CSharpTestMode\obj\Release\CSharpTestMode.csproj.CoreCompileInputs.cache
+E:\LearningDoc\TestCSharp\CSharpTestMode\CSharpTestMode\obj\Release\CSharpTestMode.exe
+E:\LearningDoc\TestCSharp\CSharpTestMode\CSharpTestMode\obj\Release\CSharpTestMode.pdb

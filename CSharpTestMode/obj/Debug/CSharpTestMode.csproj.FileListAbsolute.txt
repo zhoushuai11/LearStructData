@@ -1,0 +1,6 @@
+E:\LearningDoc\TestCSharp\CSharpTestMode\CSharpTestMode\bin\Debug\CSharpTestMode.exe
+E:\LearningDoc\TestCSharp\CSharpTestMode\CSharpTestMode\bin\Debug\CSharpTestMode.pdb
+E:\LearningDoc\TestCSharp\CSharpTestMode\CSharpTestMode\obj\Debug\CSharpTestMode.csprojAssemblyReference.cache
+E:\LearningDoc\TestCSharp\CSharpTestMode\CSharpTestMode\obj\Debug\CSharpTestMode.csproj.CoreCompileInputs.cache
+E:\LearningDoc\TestCSharp\CSharpTestMode\CSharpTestMode\obj\Debug\CSharpTestMode.exe
+E:\LearningDoc\TestCSharp\CSharpTestMode\CSharpTestMode\obj\Debug\CSharpTestMode.pdb
