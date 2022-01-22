@@ -19,12 +19,12 @@ public class Table {
     };
 
     public void Create() {
-        var materixUDG = new MatrixUDG(vexs,edges);
+        var materixUDG = new MatrixTable(vexs, edges, true);
         materixUDG.Print();
         materixUDG.DFS();
         materixUDG.BFS();
 
-        var listUdg = new ListUDG(vexs, edges);
+        var listUdg = new ListTable(vexs, edges, true);
         listUdg.Print();
     }
 }
@@ -32,20 +32,23 @@ public class Table {
 /// <summary>
 /// 邻接矩阵无向图
 /// </summary>
-public class MatrixUDG {
-    public char[] vexs; // 顶点集合
-    public int vexNum; // 顶点数
-    public int edgNum; // 边数
-    public int[,] matrix; // 邻接矩阵
+public class MatrixTable {
+    private char[] vexs; // 顶点集合
+    private int vexNum; // 顶点数
+    private int edgNum; // 边数
+    private int[,] matrix; // 邻接矩阵
+
+    private bool hasDir = false; // 边是否有方向
 
     StringBuilder str = new StringBuilder();
-    public MatrixUDG(char[] vexs, char[,] edges) {
+    public MatrixTable(char[] vexs, char[,] edges, bool hasDir) {
         edgNum = edges.Length / edges.Rank;
         vexNum = vexs.Length;
         this.vexs = new char[vexNum];
         for (int i = 0; i < vexNum; i++) {
             this.vexs[i] = vexs[i];
         }
+        this.hasDir = hasDir;
 
         edgNum = edgNum;
         matrix = new int[edgNum, edgNum];
@@ -53,7 +56,9 @@ public class MatrixUDG {
             var p1 = GetPosition(edges[i,0]);
             var p2 = GetPosition(edges[i,1]);
             matrix[p1, p2] = 1;
-            matrix[p2, p1] = 1;
+            if (!hasDir) {
+                matrix[p2, p1] = 1;
+            }
         }
     }
 
@@ -82,21 +87,19 @@ public class MatrixUDG {
     /// </summary>
     public void DFS() {
         str.Clear();
-        var i = 0;
         var visited = new int[vexNum];
         
-        for (int j = 0; j < vexNum; j++) {
-            if (visited[j] == 0) {
-                DFS(j, visited);
-            }
-        }
+        DFS(0, visited);
+        
         Console.WriteLine($"DFS: {str}");
     }
 
     private void DFS(int i, int[] visited) {
         visited[i] = 1;
+        if (i != 0) {
+            str.Append("->");
+        }
         str.Append(vexs[i]);
-        str.Append("->");
         for (int j = GetFirstVertex(i); j >= 0; j = GetNextVertex(i, j)) {
             if (visited[j] == 0) {
                 DFS(j, visited);
@@ -162,7 +165,6 @@ public class MatrixUDG {
         if (visited[vex] == 0) {
             visited[vex] = 1;
             str.Append(vexs[vex]);
-            str.Append("->");
         }
         var allPoint = GetAllPoint(vex, visited);
         var num = allPoint.Length;
@@ -175,8 +177,8 @@ public class MatrixUDG {
             var count = allPoint[i];
             visited[count] = 1;
             list.Add(count);
-            str.Append(vexs[count]);
             str.Append("->");
+            str.Append(vexs[count]);
         }
 
         if (list.Count > 0) {
@@ -215,11 +217,13 @@ public class MatrixUDG {
 /// <summary>
 /// 邻接表无向图
 /// </summary>
-public class ListUDG {
+public class ListTable {
     private int vexNum; // 顶点数
     private char[] vexs; // 顶点数组
     private int edgNum; // 边数
     private ListUDGNode[] listArrays; // 链表地址
+
+    private bool hasDir = false; // 边是否有方向
 
     public class ListUDGNode {
         public List<int> list { private set; get; }
@@ -236,22 +240,27 @@ public class ListUDG {
         }
     }
 
-    public ListUDG(char[] vexs, char[,] edges) {
+    public ListTable(char[] vexs, char[,] edges, bool hasDir) {
         vexNum = vexs.Length;
         edgNum = edges.Length / edges.Rank;
+        this.hasDir = hasDir;
         this.vexs = new char[vexNum];
         for (int i = 0; i < vexNum; i++) {
             this.vexs[i] = vexs[i];
         }
+
         listArrays = new ListUDGNode[vexNum];
         for (int i = 0; i < vexNum; i++) {
             listArrays[i] = new ListUDGNode();
         }
+
         for (int i = 0; i < edgNum; i++) {
             var a = GetVexIndex(edges[i, 0]);
             var b = GetVexIndex(edges[i, 1]);
             listArrays[a].AddNode(b);
-            listArrays[b].AddNode(a);
+            if (!hasDir) {
+                listArrays[b].AddNode(a);
+            }
         }
     }
 
