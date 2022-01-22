@@ -6,7 +6,7 @@ using System.Text;
 /// 创建邻接矩阵无向图
 /// </summary>
 public class Table {
-    char[] vexs = {'A', 'B', 'C', 'D', 'E', 'F', 'G','H'};
+    char[] vexs = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
 
     private char[,] edges = {
         {'A', 'C'}, 
@@ -14,7 +14,6 @@ public class Table {
         {'A', 'F'}, 
         {'B', 'C'}, 
         {'C', 'D'}, 
-        {'D', 'H'}, 
         {'E', 'G'}, 
         {'F', 'G'},
     };
@@ -24,6 +23,9 @@ public class Table {
         materixUDG.Print();
         materixUDG.DFS();
         materixUDG.BFS();
+
+        var listUdg = new ListUDG(vexs, edges);
+        listUdg.Print();
     }
 }
 
@@ -214,20 +216,85 @@ public class MatrixUDG {
 /// 邻接表无向图
 /// </summary>
 public class ListUDG {
-    public int vexNum; // 顶点数
-    public int[] vexs; // 顶点数组
-    public ListUDGNode[] listArrays; // 链表地址
+    private int vexNum; // 顶点数
+    private char[] vexs; // 顶点数组
+    private int edgNum; // 边数
+    private ListUDGNode[] listArrays; // 链表地址
 
     public class ListUDGNode {
         public List<int> list { private set; get; }
         public int count => list.Count;
+
+        public ListUDGNode() {
+            list = new List<int>();
+        }
 
         public void AddNode(int vex) {
             if (!list.Contains(vex)) {
                 list.Add(vex);
             }
         }
+    }
+
+    public ListUDG(char[] vexs, char[,] edges) {
+        vexNum = vexs.Length;
+        edgNum = edges.Length / edges.Rank;
+        this.vexs = new char[vexNum];
+        for (int i = 0; i < vexNum; i++) {
+            this.vexs[i] = vexs[i];
+        }
+        listArrays = new ListUDGNode[vexNum];
+        for (int i = 0; i < vexNum; i++) {
+            listArrays[i] = new ListUDGNode();
+        }
+        for (int i = 0; i < edgNum; i++) {
+            var a = GetVexIndex(edges[i, 0]);
+            var b = GetVexIndex(edges[i, 1]);
+            listArrays[a].AddNode(b);
+            listArrays[b].AddNode(a);
+        }
+    }
+
+    private int GetVexIndex(char ch) {
+        for (int i = 0; i < vexNum; i++) {
+            if (vexs[i] == ch) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    StringBuilder str = new StringBuilder();
+    public void Print() {
+        for (int i = 0; i < vexNum; i++) {
+            str.Clear();
+            var udgNode = listArrays[i];
+            var list = udgNode.list;
+            str.Append(vexs[i]);
+            str.Append(" : ");
+            for (int j = 0; j < udgNode.count; j++) {
+                var vex = vexs[list[j]];
+                if (j != 0) {
+                    str.Append("->");
+                }
+                str.Append(vex);
+            }
+            Console.WriteLine(str);
+        }
+    }
+
+    /// <summary>
+    /// 邻接表的深度搜素
+    /// </summary>
+    public void DFS() {
         
+    }
+
+    /// <summary>
+    /// 邻接表的广度搜索
+    /// </summary>
+    public void BFS() {
         
     }
 }
