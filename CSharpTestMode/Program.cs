@@ -6,8 +6,8 @@ using System.Linq;
 namespace CSharpTestMode {
     internal class Program {
         static void Main() {
-            Table table = new Table();
-            table.Create();
+            var maxChildMultity = new MaxChildMultity();
+            maxChildMultity.Run();
         }
     }
 }
