@@ -1,18 +1,20 @@
 ﻿/*
- * 最大子列和问题，求出给定区间内，最大子列的和和区间。
+ * 最大子列和问题，求出给定区间内，最大子列的和。
  */
 
 using System;
 
 public class MaxChildMultity {
     public int[] data = new[] {
-        1, -2, 4, -3, 4, -5, -3, 2
+        1, -2, 4, -3, 4,1, -5, -3, 2
     }; // 原始数据
 
     public void Run() {
         CalculateByQiongJu();
         CalculateByQiongJuOptimate();
         PrintResult(CalculateByDivideAndConquer(0,data.Length - 1));
+        CalculateByDP();
+        CalculateByDPOptimize();
     }
 
     /// <summary>
@@ -94,22 +96,44 @@ public class MaxChildMultity {
     }
 
     /// <summary>
-    /// 动态规划求解
+    /// 动态规划求解 O(N)
     /// </summary>
     /// <returns></returns>
     public void CalculateByDP() {
         var len = data.Length;
         var dp = new int[len];
-        var maxSum = data[0];
+        var maxSum = 0;
+        dp[0] = data[0];
         for (int i = 1; i < len; i++) {
-            if (data[i - 1] > 0) {
-                dp[i] = data[i] + data[i - 1];
-            } else {
-                dp[i] = data[i];
+            dp[i] = data[i];
+            if (dp[i - 1] > 0) {
+                dp[i] += dp[i - 1]; // 如果上一个的和是正的，就加上
             }
 
             if (dp[i] > maxSum) {
                 maxSum = dp[i];
+            }
+        }
+        PrintResult(maxSum);
+    }
+
+    /// <summary>
+    /// 动态规划求解，优化内存使用 O(N)
+    /// </summary>
+    /// <returns></returns>
+    public void CalculateByDPOptimize() {
+        var len = data.Length;
+        var maxSum = 0;
+        var dpSum = data[0];
+        for (int i = 1; i < len; i++) {
+            if (dpSum > 0) {
+                dpSum += data[i];
+            } else {
+                dpSum = data[i];
+            }
+
+            if (dpSum > maxSum) {
+                maxSum = dpSum;
             }
         }
         PrintResult(maxSum);
