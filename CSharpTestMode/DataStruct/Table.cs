@@ -6,16 +6,19 @@ using System.Text;
 /// 创建邻接矩阵无向图
 /// </summary>
 public class Table {
-    char[] vexs = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
+    char[] vexs = {'A', 'B', 'C', 'D', 'E', 'F', 'G','H','N'};
 
     private char[,] edges = {
+        {'A', 'B'}, 
         {'A', 'C'}, 
         {'A', 'D'}, 
         {'A', 'F'}, 
         {'B', 'C'}, 
         {'C', 'D'}, 
+        {'D', 'N'}, 
         {'E', 'G'}, 
         {'F', 'G'},
+        {'G', 'H'},
     };
 
     public void Create() {
@@ -26,6 +29,8 @@ public class Table {
 
         var listUdg = new ListTable(vexs, edges, true);
         listUdg.Print();
+        listUdg.DFS();
+        listUdg.BFS();
     }
 }
 
@@ -297,13 +302,56 @@ public class ListTable {
     /// 邻接表的深度搜素
     /// </summary>
     public void DFS() {
-        
+        str.Clear();
+        str.Append("ListUDG DFS: ");
+        var travelList = new List<int>();
+        DFSTravel(0, travelList);
+        foreach (var value in travelList) {
+            str.Append(vexs[value]);
+            str.Append("-> ");
+        }
+        Console.WriteLine(str);
+    }
+
+    private void DFSTravel(int vexIndex, List<int> travelList) {
+        travelList.Add(vexIndex);
+        var udgNode = listArrays[vexIndex];
+        var list = udgNode.list;
+        for (int i = 0; i < list.Count; i++) {
+            var nextIndex = list[i];
+            if (!travelList.Contains(nextIndex)) {
+                DFSTravel(nextIndex, travelList);
+            }
+        }
     }
 
     /// <summary>
     /// 邻接表的广度搜索
     /// </summary>
     public void BFS() {
-        
+        var queue = new Queue<int>();
+        var travelList = new List<int>();
+        queue.Enqueue(0);
+        while (queue != null && queue.Count >0) {
+            var value = queue.Dequeue();
+            if (travelList.Contains(value)) {
+                continue;
+            }
+            travelList.Add(value);
+            var udgNode = listArrays[value];
+            var list = udgNode.list;
+            foreach (var v in list) {
+                if (!travelList.Contains(v)) {
+                    queue.Enqueue(v);
+                }
+            }
+        }
+        str.Clear();
+        str.Append("ListUDG BFS: ");
+        foreach (var value in travelList) {
+            str.Append(vexs[value]);
+            str.Append("-> ");
+        }
+        Console.WriteLine(str);
     }
 }

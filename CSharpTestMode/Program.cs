@@ -6,8 +6,10 @@ using System.Linq;
 namespace CSharpTestMode {
     internal class Program {
         static void Main() {
-            LeetCodeProgram leetCodeProgram = new LeetCodeProgram();
-            leetCodeProgram.Start();
+            // LeetCodeProgram leetCodeProgram = new LeetCodeProgram();
+            // leetCodeProgram.Start();
+            var t = new Table();
+            t.Create();
         }
         
         public static string LongestCommonPrefix(string[] strs) {
